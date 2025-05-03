@@ -20,4 +20,7 @@ class POS
     #[ORM\Column(type: 'string')]
     private string $location;
 
+    #[ORM\OneToOne(targetEntity: POSConfig::class, mappedBy: 'POS')]
+    private POSConfig $config;
+
 }
