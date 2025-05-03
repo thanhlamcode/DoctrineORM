@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 
 #[ApiResource]
@@ -19,8 +20,9 @@ class AttendanceRecord
     #[ORM\Column(type: 'datetime')]
     private \DateTime $timestamp;
 
-    #[ORM\Column(type: 'integer')]
-    private int $userId;
+    #[ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
+    private User $userId;
 
     #[ORM\ManyToOne(targetEntity: POS::class)]
     #[JoinColumn(name: 'pos_id', referencedColumnName: 'id')]
