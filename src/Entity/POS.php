@@ -23,4 +23,7 @@ class POS
     #[ORM\OneToOne(targetEntity: POSConfig::class, mappedBy: 'POS')]
     private POSConfig $config;
 
+    #[ORM\ManyToOne(targetEntity: Store::class, inversedBy: 'posList')]
+    #[ORM\JoinColumn(name: 'store_id', referencedColumnName: 'id')]
+    private Store $store;
 }
