@@ -25,7 +25,6 @@ class Roles
 
     public function __construct()
     {
-        $this->user_id = new ArrayCollection();
         $this->permissions = new ArrayCollection();
     }
 
@@ -41,11 +40,6 @@ class Roles
         return $this->role;
     }
 
-    public function getUserId(): Collection
-    {
-        return $this->user_id;
-    }
-
     public function getPermissions(): Collection
     {
         return $this->permissions;
@@ -56,25 +50,6 @@ class Roles
     public function setRole(string $role): self
     {
         $this->role = $role;
-        return $this;
-    }
-
-    // --- COLLECTION HELPERS FOR USER ---
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user_id->contains($user)) {
-            $this->user_id[] = $user;
-            $user->addRole($this);
-        }
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user_id->removeElement($user)) {
-            $user->removeRole($this);
-        }
         return $this;
     }
 

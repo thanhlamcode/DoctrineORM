@@ -31,9 +31,6 @@ class User
     // Quan hệ: 1 manager quản lý nhiều user
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'manager')]
     private Collection $subordinates;
-
-    #[ManyToOne(targetEntity: Roles::class, inversedBy: 'user_id')]
-    private Collection $roles;
     
     public function __contruct(): void
     {
