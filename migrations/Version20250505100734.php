@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250505034416 extends AbstractMigration
+final class Version20250505100734 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,19 +21,13 @@ final class Version20250505034416 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE category (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))
+            ALTER TABLE role_user DROP CONSTRAINT fk_332ca4dd38c751c4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE service (id SERIAL NOT NULL, category_id INT NOT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(100) NOT NULL, price NUMERIC(10, 2) NOT NULL, description TEXT DEFAULT NULL, PRIMARY KEY(id))
+            ALTER TABLE role_user DROP CONSTRAINT fk_332ca4dda76ed395
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE UNIQUE INDEX UNIQ_E19D9AD277153098 ON service (code)
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE INDEX IDX_E19D9AD212469DE2 ON service (category_id)
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE service ADD CONSTRAINT FK_E19D9AD212469DE2 FOREIGN KEY (category_id) REFERENCES category (id) NOT DEFERRABLE INITIALLY IMMEDIATE
+            DROP TABLE role_user
         SQL);
     }
 
@@ -44,13 +38,19 @@ final class Version20250505034416 extends AbstractMigration
             CREATE SCHEMA public
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE service DROP CONSTRAINT FK_E19D9AD212469DE2
+            CREATE TABLE role_user (roles_id INT NOT NULL, user_id INT NOT NULL, PRIMARY KEY(roles_id, user_id))
         SQL);
         $this->addSql(<<<'SQL'
-            DROP TABLE category
+            CREATE INDEX idx_332ca4dda76ed395 ON role_user (user_id)
         SQL);
         $this->addSql(<<<'SQL'
-            DROP TABLE service
+            CREATE INDEX idx_332ca4dd38c751c4 ON role_user (roles_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE role_user ADD CONSTRAINT fk_332ca4dd38c751c4 FOREIGN KEY (roles_id) REFERENCES roles (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE role_user ADD CONSTRAINT fk_332ca4dda76ed395 FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE
         SQL);
     }
 }
