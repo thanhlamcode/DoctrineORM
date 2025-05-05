@@ -20,10 +20,35 @@ class POS
     #[ORM\Column(type: 'string')]
     private string $location;
 
-    #[ORM\OneToOne(targetEntity: POSConfig::class, mappedBy: 'POS')]
+    #[ORM\OneToOne(targetEntity: POSConfig::class, mappedBy: 'pos')]
     private POSConfig $config;
 
     #[ORM\ManyToOne(targetEntity: Store::class, inversedBy: 'posList')]
     #[ORM\JoinColumn(name: 'store_id', referencedColumnName: 'id')]
     private Store $store;
+
+    public function getId(): int{
+        return $this->id;
+    }
+
+    public function getName(): string{
+        return $this->name;
+    }
+
+    public function setName(string $name): void{
+        $this->name = $name;
+    }
+    public function getLocation(): string{
+        return $this->location;
+    }
+    public function setLocation(string $location): void{
+        $this->location = $location;
+    }
+    public function getConfig(): POSConfig{
+        return $this->config;
+    }
+
+    public function getStore(): Store{
+        return $this->store;
+    }
 }
