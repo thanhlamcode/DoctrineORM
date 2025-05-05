@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250503142430 extends AbstractMigration
+final class Version20250505034416 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,13 +21,19 @@ final class Version20250503142430 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE "user" ADD manager_id INT DEFAULT NULL
+            CREATE TABLE category (id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE "user" ADD CONSTRAINT FK_8D93D649783E3463 FOREIGN KEY (manager_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE
+            CREATE TABLE service (id SERIAL NOT NULL, category_id INT NOT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(100) NOT NULL, price NUMERIC(10, 2) NOT NULL, description TEXT DEFAULT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE INDEX IDX_8D93D649783E3463 ON "user" (manager_id)
+            CREATE UNIQUE INDEX UNIQ_E19D9AD277153098 ON service (code)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_E19D9AD212469DE2 ON service (category_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE service ADD CONSTRAINT FK_E19D9AD212469DE2 FOREIGN KEY (category_id) REFERENCES category (id) NOT DEFERRABLE INITIALLY IMMEDIATE
         SQL);
     }
 
@@ -38,13 +44,13 @@ final class Version20250503142430 extends AbstractMigration
             CREATE SCHEMA public
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE "user" DROP CONSTRAINT FK_8D93D649783E3463
+            ALTER TABLE service DROP CONSTRAINT FK_E19D9AD212469DE2
         SQL);
         $this->addSql(<<<'SQL'
-            DROP INDEX IDX_8D93D649783E3463
+            DROP TABLE category
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE "user" DROP manager_id
+            DROP TABLE service
         SQL);
     }
 }
