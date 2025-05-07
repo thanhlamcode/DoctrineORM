@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 
 #[ApiResource]
 #[Entity]
+#[ORM\Index(fields: ['name'])]
 class Store
 {
     #[ORM\Id]
@@ -22,4 +23,34 @@ class Store
 
     #[ORM\OneToMany(targetEntity: POS::class, mappedBy: 'store')]
     private Collection $posList;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getPosList(): Collection
+    {
+        return $this->posList;
+    }
+
+    public function setPosList(Collection $posList): void
+    {
+        $this->posList = $posList;
+    }
 }

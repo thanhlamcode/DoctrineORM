@@ -31,10 +31,30 @@ class User
     // Quan hệ: 1 manager quản lý nhiều user
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'manager')]
     private Collection $subordinates;
-    
-    public function __contruct(): void
+
+    public function __construct()
     {
         $this->subordinates = new ArrayCollection();
+    }
+
+    public function getManager(): ?User
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?User $manager): void
+    {
+        $this->manager = $manager;
+    }
+
+    public function getSubordinates(): Collection
+    {
+        return $this->subordinates;
+    }
+
+    public function setSubordinates(Collection $subordinates): void
+    {
+        $this->subordinates = $subordinates;
     }
 
     public function getId(): int
